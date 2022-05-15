@@ -221,7 +221,13 @@ func (cmap *concurrentMap) length() int64 {
 
 // ----------------------------------------------------------------
 
-func NewConcurrentMap(capacity int) (*concurrentMap, error) {
+func NewConcurrentMap(capacities ...int) (*concurrentMap, error) {
+	capacity := 16
+	switch len(capacities) {
+	case 1:
+		capacity = capacities[0]
+	}
+
 	if capacity < 2 {
 		return nil, errors.New("capacity must be an integer multiple of 2")
 	}
